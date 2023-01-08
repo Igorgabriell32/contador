@@ -10,20 +10,35 @@ class myApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Homepage(),
     );
   }
 }
 
-class Homepage extends StatelessWidget {
+class Homepage extends StatefulWidget {
   const Homepage({super.key});
 
+  @override
+  State<Homepage> createState() => _HomepageState();
+}
+
+class _HomepageState extends State<Homepage> {
+  int count = 0;
+
   void increment() {
-    print('Entrou');
+    setState(() {
+      count++;
+    });
   }
 
   void decrement() {
-    print('Saiu');
+    setState(() {
+      count--;
+      if (count <= 0) {
+        count = 0;
+      }
+    });
   }
 
   @override
@@ -31,9 +46,9 @@ class Homepage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.lightBlue,
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/bg.jpg'),
+            image: AssetImage('assets/px.jpg'),
             fit: BoxFit.cover,
           ),
         ),
@@ -47,7 +62,7 @@ class Homepage extends StatelessWidget {
                     fontSize: 30)),
             Padding(
               padding: const EdgeInsets.all(1),
-              child: Text('0',
+              child: Text('$count',
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w400,
@@ -59,7 +74,7 @@ class Homepage extends StatelessWidget {
                 TextButton(
                   onPressed: increment,
                   style: TextButton.styleFrom(
-                    backgroundColor: Colors.black,
+                    backgroundColor: Colors.white,
                     fixedSize: const Size(100, 100),
                     primary: Colors.white,
                     shape: RoundedRectangleBorder(
@@ -67,7 +82,7 @@ class Homepage extends StatelessWidget {
                   ),
                   child: Text(
                     'Entrou',
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: Colors.black),
                   ),
                 ),
                 SizedBox(
