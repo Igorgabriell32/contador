@@ -9,7 +9,7 @@ class myApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Homepage(),
     );
@@ -35,11 +35,11 @@ class _HomepageState extends State<Homepage> {
   void decrement() {
     setState(() {
       count--;
-      if (count <= 0) {
-        count = 0;
-      }
     });
   }
+
+  bool get IsEmpaty => count == 0;
+  bool get isFull => count == 20;
 
   @override
   Widget build(BuildContext context) {
@@ -55,16 +55,16 @@ class _HomepageState extends State<Homepage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Pode entrar',
+            Text(isFull ? 'Lotado' : "Pode Entrar",
                 style: TextStyle(
-                    color: Colors.white,
+                    color: isFull ? Colors.red : Colors.white,
                     fontWeight: FontWeight.w900,
                     fontSize: 30)),
             Padding(
               padding: const EdgeInsets.all(1),
               child: Text('$count',
                   style: TextStyle(
-                      color: Colors.white,
+                      color: isFull ? Colors.red : Colors.white,
                       fontWeight: FontWeight.w400,
                       fontSize: 100)),
             ),
@@ -72,32 +72,36 @@ class _HomepageState extends State<Homepage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextButton(
-                  onPressed: increment,
+                  onPressed: isFull ? null : increment,
                   style: TextButton.styleFrom(
-                    backgroundColor: Colors.white,
+                    backgroundColor:
+                        isFull ? Colors.white.withOpacity(0.2) : Colors.white,
                     fixedSize: const Size(100, 100),
                     primary: Colors.white,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16)),
                   ),
-                  child: Text(
+                  child: const Text(
                     'Entrou',
                     style: TextStyle(color: Colors.black),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 20,
                 ),
                 TextButton(
-                    onPressed: decrement,
+                    onPressed: IsEmpaty ? null : decrement,
                     style: TextButton.styleFrom(
-                      backgroundColor: Colors.white,
+                      backgroundColor: IsEmpaty
+                          ? Colors.white.withOpacity(0.2)
+                          : Colors.white,
                       fixedSize: const Size(100, 100),
                       primary: Colors.black,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16)),
                     ),
-                    child: Text('Saiu', style: TextStyle(color: Colors.black))),
+                    child: const Text('Saiu',
+                        style: TextStyle(color: Colors.black))),
               ],
             )
           ],
